@@ -1,31 +1,65 @@
+import React, { useState } from 'react';
 import { 
   Center,
-  ChakraProvider,
   Input,
   Box,
-  Button
-} from '@chakra-ui/react'
-import { login } from './services/login';
+  Button,
+  FormControl,
+  FormLabel
+} from '@chakra-ui/react';
 
-function App() {
+import { login } from './services/login'; // Importa a função de serviços
+
+const LoginForm = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleLogin = () => {
+    if (!email || !password) {
+      alert('Por favor, preencha todos os campos!');
+      return;
+    }
+    login(email, password); // Chama a função importada
+  };
+
   return (
-    <ChakraProvider>
-      <Box minHeight='100vh' backgroundColor='#9413dc' padding='25px'>
-        <Box backgroundColor='#FFFFFF' borderRadius='25px' padding='15px' >
-          <Center>
-            <h1>Faça o login</h1>
-          </Center>
-          <Input placeholder="email" />
-          <Input placeholder="password" />
-          <Center>
-            <Button onClick={login} colorScheme='teal' size='sm' width='100%' marginTop='5px'>
-              Button
-            </Button>
-          </Center>
-        </Box>
-      </Box>
-    </ChakraProvider>
+    <Box backgroundColor="#FFFFFF" borderRadius="25px" padding="15px" width="300px">
+      <Center>
+        <h1>Faça o login</h1>
+      </Center>
+      <FormControl marginTop="10px">
+        <FormLabel htmlFor="email">Email</FormLabel>
+        <Input 
+          id="email"
+          type="email"
+          placeholder="Digite seu email" 
+          value={email} 
+          onChange={(e) => setEmail(e.target.value)} 
+        />
+      </FormControl>
+      <FormControl marginTop="10px">
+        <FormLabel htmlFor="password">Senha</FormLabel>
+        <Input 
+          id="password"
+          type="password"
+          placeholder="Digite sua senha" 
+          value={password} 
+          onChange={(e) => setPassword(e.target.value)} 
+        />
+      </FormControl>
+      <Center>
+        <Button 
+          onClick={handleLogin} 
+          colorScheme="teal" 
+          size="sm" 
+          width="100%" 
+          marginTop="15px"
+        >
+          Entrar
+        </Button>
+      </Center>
+    </Box>
   );
-}
+};
 
-export default App;
+export default LoginForm;
